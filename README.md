@@ -1,100 +1,166 @@
-# Sign-Language-Recognition-Using-LSTM
+<div align="center">
 
-## General
+# 🎓 ỨNG DỤNG NHẬN DIỆN CỬ CHỈ TAY HỖ TRỢ GIAO <br> TIẾP CHO NGƯỜI KHUYẾT TẬT
 
-After the start of the pandemic the use of E-Learning has increased drastically. By 2026 the E-learning industry is seat to reach at least $400 billion. With the rise of this new fashion of education no child should be left behind. Children with the disability of hearing loss are held at a disadvantage due to the reason that they have a hard time hearing the lectures that are present on the screen. Other factors would be a mute child who would not be able to speak in according to the response of the lecturer. In order for these children to cope with education the American Sign Language was created not only to help them with education but to provide ease for their daily lives. To help these children with their education we proposed a model that will help the student make ASL gestures to the camera and have it read and provide feedback on what language was read. For this we used OpenCV with Mediapipe Holistic to identify the key markers of the poser with all the values to be collected and then be trained on the Long Short Term Memory Architecture. 
-
-## MediaPipe Holistic
-The initial step of the program is to identify the Keypoints of the user. MP Holistic is an API created by Mediapipe which identifies the keypoints on a body by identifying the holistic key points
-
-`mp_holistic = mp.solutions.holistic
-mp_drawing = mp.solutions.drawing_utils`
-
-These two api calls, are calls the Holistic API uses to identify the keypoints holistic keypoints and draw it
+</div>
 
 
+<div align="center">
 
-The function
-`draw_landmarks(image, results)`
+<p align="center">
+  <img src="images/logo.png" alt="Logo Đại học Đại Nam" width="200"/>
+  <img src="images/AIoTLab_logo.png" alt="Logo AIoTLab" width="170"/>
+</p>
 
-Draws landmarks of the identified keypoints on the user
+</div>
 
-![Unstyled](https://github.com/evarghese563/Images/blob/main/Sign/unstyled.gif)
+<h3 align="center">🔬 Tăng Cường Giao Tiếp Bằng Công Nghệ Nhận Diện Ký Hiệu Dựa Trên AI</h3>
 
+<p align="center">
+  <strong>Hệ thống nhận diện ngôn ngữ ký hiệu tiếng Việt thời gian thực sử dụng Mediapipe và SignLSTM</strong>
+</p>
 
-However wth a few extra lines of code 
-`draw_styled_landmarks(image,results)`
+## 🏗️ Kiến trúc hệ thống
 
-The keypoints can be color coded for the viewer to identify the different parts of the human
+<p align="center">
+  
+  ![image](https://github.com/user-attachments/assets/1144a93e-ac5b-4e27-9446-c1072cb4b44a)
+</p>
 
-![Styled](https://github.com/evarghese563/Images/blob/main/Sign/styled.gif)
+Hệ thống được thiết kế với kiến trúc đa tầng:
 
+1. **📹 Tầng xử lý đầu vào**: Quay video từ webcam, trích xuất 1662 điểm đặc trưng bằng Mediapipe Holistic.
+2. **🧠 Tầng mô hình**: Xử lý chuỗi 30 khung hình bằng mô hình SignLSTM hai tầng.
+3. **🔊 Tầng đầu ra**: Hiển thị dự đoán trên màn hình và phát âm thanh nếu độ tin cậy vượt quá 0.8 trong ít nhất 1 giây.
 
-## Collecting the Data
-After the mediapipe has been defined the keypoints must be collected and stored to be trained on later. 
+## ✨ Tính năng nổi bật
 
-`def extract_keypoints(results)` 
+- **Mô hình SignLSTM** với độ chính xác 90%.
+- **Nhận diện thời gian thực**, xử lý chuỗi 30 khung hình với thời gian suy luận ~30ms.
+- **Phát hiện hành động ổn định**, tránh trùng lặp âm thanh.
+- **Phản hồi âm thanh**, hỗ trợ giao tiếp hiệu quả.
+- **Nhận diện 10 hành động**: "null", "xin chao", "cam on", "xin loi", "hanh phuc", "tuyet voi", "yeu thuong", "ghet", "biet on", "tam biet".
 
-This takes in the extracted keypoints from the video and concatenated the values into a numpy array.
+## 🔧 Công nghệ sử dụng
 
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=yellow)](https://www.python.org/)
+[![Mediapipe](https://img.shields.io/badge/Mediapipe-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://mediapipe.dev/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)](https://opencv.org/)
 
-The collected data is abeled as 'Hello', 'Thanks', and 'I Love You'. In order to collect the data the user poses for the three different action in for 30 sequences for 30 frames. For a total of 90 collectd sequences
+## 📥 Cài đặt
 
-The identified keypoints are stored in the folder called MP_Data, with each sequence in its respective action folder in the .npy format 
+### 🛠️ Yêu cầu hệ thống
 
+- **Python** `3.8+`
+- **Webcam** (khuyến nghị 1280x720)
+- **RAM** `4GB+`
+- **CPU** `2+ nhân`
+- **Dung lượng lưu trữ** `2GB+`
 
-## Training the Long Short Term Memory
-To train the Long Short Term Memory the model selected was a Sequential model trained on 3 layers and 2 dense layers. Since it is catagorical data the model was compiled as:
+### ⚙️ Hướng dẫn cài đặt
 
-`model.compile(optimizer = 'Adam',loss='categorical_crossentropy',metrics=['categorical_accuracy'])`
+1. **Tải mã nguồn**
+   ```bash
+   git clone https://github.com/DangTruongDuong/sign-language-detection-using-lstm
+   cd sign-language-detection-using-lstm
+   ```
 
-The model was then Trained on 2000 epochs.
+2. **Tạo môi trường ảo**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts ctivate
+   ```
 
-## Testing in Real time
-These are the testing results in real time from the project after training the data on the LSTM Architecture using MP Holistic
+3. **Cài đặt các thư viện**
+   ```bash
+   pip install opencv-python numpy mediapipe tensorflow scikit-learn pygame Pillow
+   ```
 
-### Hello
+4. **Chuẩn bị thư mục dữ liệu và âm thanh**
+   ```bash
+   mkdir MP_Data sounds
+   # Sao chép các file .mp3 đã ghi sẵn vào thư mục sounds/
+   ```
 
-![Hello](https://github.com/evarghese563/Images/blob/main/Sign/hello.gif)
+5. **Chuẩn bị font chữ tiếng Việt**
+   ```bash
+   # Sử dụng font mặc định (ví dụ: C:/Windows/Fonts/arial.ttf)
+   # Nếu không có, tải font hỗ trợ tiếng Việt và cập nhật font_path trong predict.py
+   ```
 
-### Thanks
+## 🚀 Bắt đầu sử dụng
 
-![Thanks](https://github.com/evarghese563/Images/blob/main/Sign/thanks.gif)
+### 📥 Thu thập dữ liệu
+   ```bash
+   Thu_Thap_Data.py
+   ```
 
-### I Love You
+### 🧠 Huấn luyện mô hình
+   ```bash
+   huan_luyen_mo_hinh.py
+   ```
 
-![ILY](https://github.com/evarghese563/Images/blob/main/Sign/ily.gif)
+### ⚡ Khởi động 
+   ```bash
+   Run_With_Sound.py or Run_No_Sound
+   ```
 
-### Extras
+### 📊 Đánh giá mô hình
+   ```bash
+   Ve_mo_So_do_mo_hinh_va_so_sanh.ipynb
+   ```
+6. **Kết quả và độ chính xác**
+## 📊 Kết quả
 
-#### 1.  Color Coded Probability Viewer
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1bfaf6b2-ffc3-4b9a-a2da-1d050caa8122" alt="Kết quả tổng quan" width="600"/>
+</p>
 
-- This is a probability bar which shows the gesture that is being identified the most in the test. The bar rises with the gesture it recognizes most. The color for each bar is as follows:
+### 📈 Hiệu suất mô hình
+- **Độ chính xác**: Mô hình SignLSTM đạt **90%** trên tập kiểm tra, với 10% dữ liệu được chia để đánh giá (90% train, 10% test).  
+- **Thời gian suy luận**: Trung bình **~30ms** mỗi khung hình, cho phép xử lý thời gian thực với tốc độ **20-33 FPS** trên webcam 1280x720.  
+- **Nhầm lẫn hành động**: Nhầm lẫn chủ yếu xảy ra giữa các hành động tương tự như **"xin chao"** và **"cam on"** (dựa trên quan sát từ dữ liệu thử nghiệm).
 
-  - Blue/Hello
-  - Green/Thanks
-  - Orange/I Love You
+### ⏱️ Nhận diện thời gian thực
+- Hệ thống hoạt động ổn định trên webcam tiêu chuẩn, hiển thị nhãn hành động và phát âm thanh chính xác khi độ tin cậy **≥ 0.8** trong **≥ 1 giây**.  
+- Tốc độ xử lý trung bình **20-33 FPS**, phụ thuộc vào hiệu suất phần cứng.
 
+### ⚠️ Hạn chế và cải tiến
+- **Hạn chế**: Yêu cầu ánh sáng tốt để Mediapipe hoạt động hiệu quả; chỉ nhận diện các hành động đã được huấn luyện.  
+- **Cải tiến đề xuất**: Thu thập thêm dữ liệu cho các hành động dễ nhầm lẫn (như **"xin chao"**, **"hanh phuc"**); tối ưu hóa mô hình bằng pruning hoặc quantization để tăng tốc độ trên thiết bị yếu.
 
-## Run
-### Run on Old Weights
-<!-- To run on the previous versions weights the user has to simply run 'Run.py' or ' RunNoMarker.py'. Make sure either one of the files in the same folder as MP_DATA and actions.h5
- -->
-To run on the previous versions weights the user has to simply run 'Run.py' or ' RunNoMarker.py'. Make sure either one of the files in the same folder with actions.h5
+### 📉 Phân phối thời gian suy luận so với các mô hình khác
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/745494bf-9afa-49f3-9b6b-55849eee3d6d" alt="Phân phối thời gian suy luận" width="600"/>
+</p>
+SignLSTM có thời gian suy luận trung bình **~30ms**, nhanh hơn đáng kể so với các mô hình khác (ví dụ: Transformer ~50ms), phù hợp cho ứng dụng thời gian thực.
 
-### Run on New Weights
-To run on a new dataset:
+### 📊 So sánh hiệu suất với các mô hình khác
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/dd017db6-ee3d-47d2-909e-2e81dcdb52e5" alt="So sánh hiệu suất" width="600"/>
+</p>
+SignLSTM vượt trội với độ chính xác **90%**, trong khi các mô hình khác (như Transformer) chỉ đạt khoảng **13%** trên cùng tập dữ liệu.
 
-1. CollectData.py
+### 🧩 Ma trận nhầm lẫn
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/a9a6f907-c670-4380-8888-ec71a4f7e3d8" alt="Ma trận nhầm lẫn" width="600"/>
+</p>
+Ma trận nhầm lẫn cho thấy các hành động như **"xin chao"** và **"cam on"** có tỷ lệ nhầm lẫn cao nhất, do sự tương đồng trong cử chỉ tay.
 
-      - When the camera opens pose in the Sign Language poses for 30 sequences in 'Hello', 'Thanks', and 'I Love You'.
+ ## 📚 Tài liệu hướng dẫn
+  
 
-2. NeuralNetwork.py
+- 📖 Hướng dẫn cài đặt
+- 👥 Hướng dẫn sử dụng
+- 🔧 Tài liệu API
+- 🤝 Hướng dẫn đóng góp
 
-      - To train the collected data on the Long Short Term Memory Architecture hit run
+## 📝 Bản quyền
 
-3. Run.py or RunNoMarker.py 
+© 2025 NguyenDucHoan-Nhóm 1-CNTT_16-01, Khoa Công nghệ Thông tin, Đại học Đại Nam. Mọi quyền được bảo lưu.
+<div align="center">
+Được thực hiện bởi 💻 Nhóm 1-CNTT_16-01 tại Đại học Đại Nam
 
-      - Test the model in real time
-      - Run RunNoMarker.py if the user would like to run the model without any of the viewing markers the user can run this file to access the application without any of the landmarks
-
+Email cá nhân : nguyenduchoan2050@gmail.com
+</div>
